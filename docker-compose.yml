@@ -1,0 +1,39 @@
+version: '2'
+services:
+  rails:
+    build: .
+    image: my/rails5.2
+    container_name: 'rails'
+    ports:
+      - "80:3000"
+    environment:
+      APP_DATABASE: 'example'
+      APP_DATABASE_USER: 'app'
+      APP_DATABASE_PASSWORD: 'development'
+    volumes:
+      - rails-data:/usr/local/src
+    user: ${CURRENT_UID}
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:5.7
+    container_name: 'mysql'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'mysql'
+      MYSQL_DATABASE: 'example'
+      MYSQL_USER: 'app'
+      MYSQL_PASSWORD: 'development'
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  rails-data:
+    driver_opts:
+      type: none
+      device: ${PWD}/src/
+      o: bind
+  mysql-data:
+    driver: local
