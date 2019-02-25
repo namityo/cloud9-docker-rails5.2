@@ -15,6 +15,10 @@ services:
     user: ${CURRENT_UID}
     depends_on:
       - mysql
+    command: >
+      bash -c "
+        bundle install && \
+        bundle exec rails s"
 
   mysql:
     image: mysql:5.7
