@@ -1,11 +1,11 @@
 version: '2'
 services:
   rails:
-    build: .
+    build: ./build/rails
     image: my/rails5.2
     container_name: 'rails'
     ports:
-      - "80:3000"
+      - '80:3000'
     environment:
       APP_DATABASE: 'example'
       APP_DATABASE_USER: 'app'
@@ -15,10 +15,9 @@ services:
     user: ${CURRENT_UID}
     depends_on:
       - mysql
-    command: >
-      bash -c "
-        bundle install && \
-        bundle exec rails s"
+    tty: true
+    #command: >
+    #  bash -c "bundle install"
 
   mysql:
     image: mysql:5.7

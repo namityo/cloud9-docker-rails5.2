@@ -2,6 +2,7 @@ FROM ruby:2.5
 
 ENV LANG C.UTF-8
 ENV WORKSPACE=/usr/local/src
+ENV RAILS_VERSION="~>5.2.0"
 
 # install bundler.
 RUN apt-get update && \
@@ -26,8 +27,6 @@ RUN mkdir -p $WORKSPACE $BUNDLE_APP_CONFIG && \
 USER rails
 WORKDIR $WORKSPACE
 
-RUN gem install bundler
-
-# install ruby on rails.
-ADD --chown=rails:rails src $WORKSPACE
-#RUN bundle install
+# install gems
+RUN gem install bundler && \
+    gem install rails --version=$RAILS_VERSION
